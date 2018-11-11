@@ -4,11 +4,12 @@ const Schema = mongoose.Schema
 
 const User = new Schema({
     uid: String,
-    password: String
+    password: String,
+    seatOccupying: {
+        floor: Number,
+        sid: Number
+    },
 })
-/**
- * don't use arrow func: no lexical scope!
- */
 
 // statics -> for class
 User.statics.create = function (uid, password) {
@@ -21,8 +22,6 @@ User.statics.create = function (uid, password) {
 }
 
 User.statics.findOneByUID = async function (uid) {
-    // let a = await this.findOne({uid})
-    // console.log(a.todo)
     return await this.findOne({
         uid
     })

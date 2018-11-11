@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
     }
 }
 
-exports.signIn = async (req, res) => {
+exports.login = async (req, res) => {
     const { uid, password } = req.body
     const secret = req.app.get('jwt-secret')
 
