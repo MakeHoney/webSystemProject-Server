@@ -12,8 +12,7 @@ exports.register = async (req, res) => {
     }
 
     try {
-        let userExist =
-            await User.findOneByUID(uid)
+        let userExist = await User.findOneByUID(uid)
         await createUser(userExist)
         res.json({
             message: 'successfully registered!'

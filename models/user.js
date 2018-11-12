@@ -11,25 +11,59 @@ const User = new Schema({
     },
 })
 
+/**
+ * await --> try catch로 exception handling 필요
+ * */
+
 // statics -> for class
-User.statics.create = function (uid, password) {
-    const user = new this({
-        uid,
-        password: encrypt(password)
-    })
-    // console.log(user)
-    return user.save()
+User.statics.create = async function (uid, password) {
+    try {
+        const user = new this({
+            uid,
+            password: encrypt(password),
+            seatOccupying: {
+                floor: '',
+                sid: ''
+            }
+        })
+        return await user.save()
+    } catch (err) {
+        throw new Error(err)
+    }
 }
 
 User.statics.findOneByUID = async function (uid) {
-    return await this.findOne({
-        uid
-    })
+    try {
+        return await this.findOne({
+            uid
+        })
+    } catch (err) {
+        throw new Error(err)
+    }
 }
 
 // methods -> for specific instance
 User.methods.verify = function (password) {
     return this.password === encrypt(password)
+}
+
+User.methods.hasSeat = function () {
+    // let flag =  false
+    // !this.seatOccupying.sid
+    // ? flag = false
+    // : flag = true
+    // return flag
+    if(this.seatOccupying.sid) {
+        throw new Error(`user already has a seat! (sid: ${this.seatOccupying.sid})`)
+    }
+}
+
+User.methods.updateSeatInfo = async function ({ seatOccupying }) {
+    try {
+        await this.update({ seatOccupying })
+    } catch (err) {
+        throw new Error(err)
+    }
 }
 
 module.exports = mongoose.model('User', User)
