@@ -48,11 +48,6 @@ User.methods.verify = function (password) {
 }
 
 User.methods.hasSeat = function () {
-    // let flag =  false
-    // !this.seatOccupying.sid
-    // ? flag = false
-    // : flag = true
-    // return flag
     if(this.seatOccupying.sid) {
         throw new Error(`user already has a seat! (sid: ${this.seatOccupying.sid})`)
     }
