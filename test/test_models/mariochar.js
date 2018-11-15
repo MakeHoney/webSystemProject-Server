@@ -6,4 +6,5 @@ const MarioCharSchema = new Schema({
     weight: Number
 })
 
+// model (represents collection of database)
 module.exports = mongoose.model('mariochar', MarioCharSchema)
