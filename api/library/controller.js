@@ -13,7 +13,9 @@ exports.reserve = async (req, res) => {
 
         const seatOccupying = {
             floor: seat.floor,
-            sid
+            sid,
+            default: Date.now(),
+            expires: 120
         }
 
         user.updateSeatInfo({ seatOccupying })

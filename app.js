@@ -26,5 +26,3 @@ db.on('error', console.error)
 db.once('open', () => {
     console.log('connected to mongodb server')
 })
-
-
