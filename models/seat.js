@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 const Seat = new Schema({
     sid: Number,
     floor: Number,
-    isOccupied: Boolean
+    occupiedTime: { type: Date, default: Date.now() },
+    user: { type: Number, ref: 'User' }
 })
 
 Seat.statics.findOneBySID = async function (sid) {

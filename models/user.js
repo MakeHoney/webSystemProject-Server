@@ -2,23 +2,10 @@ const mongoose = require('mongoose')
 const { encrypt } = require('../utils/encrypt')
 const Schema = mongoose.Schema
 
-// const User = new Schema({
-//     uid: String,
-//     password: String,
-//     seatOccupying: {
-//         floor: Number,
-//         sid: Number,
-//         createdAt: {
-//             type: Date,
-//             expires: '2m'
-//         }
-//     },
-// })
-
 const User = new Schema({
     uid: String,
     password: String,
-    seat: { type: String, ref: 'Seat' }
+    seat: { type: Number, ref: 'Seat' }
 })
 
 /**
