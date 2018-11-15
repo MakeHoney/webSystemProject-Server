@@ -7,10 +7,3 @@ mongoose.connection.once('open', () => {
 }).on('error', (err) => {
     console.error('Mongo connection error', err)
 })
-
-// Drop the characters collection before each test
-
-beforeEach(async () => {
-    // Drop the collection
-    await mongoose.connection.collections.mariochars.drop()
-})
