@@ -7,8 +7,9 @@ export const reserveSeat = async (req, res) => {
         const user = await User.findOneByUID(studentID)
         const seat = await Seat.findOneBySID(sid)
 
-        user.hasSeat()
-        seat.isTaken()
+        // exception handler
+        user.hasSeat('reserve')
+        seat.isTaken('reserve')
 
         await user.updateSeatInfo({ sid: seat._id })
         await seat.updateSeat({ studentID: user._id })
@@ -31,19 +32,26 @@ export const returnSeat = async (req, res) => {
     try {
         const user = await User.findOne({studentID})
             .populate('sid')
+        // exception handler for user
+        user.hasSeat('return')
 
-        // seat의 studentID, occupiedTime 초기화
         const seat = await Seat.findById(user.sid._id)
+        // exception handler for seat
+        seat.isTaken('return')
+
+        // seat's studentID, occupiedTime 초기화
         await seat.update({studentID: null})
         await seat.update({occupiedTime: null})
 
-        // user의 sid 초기화
+        // user's sid 초기화
         await user.update({sid: null})
         res.json({
             message: 'successfully returned!'
         })
     } catch (err) {
-        console.error('error occurred', err)
+        res.status(500).json({
+            message: err.message
+        })
     }
 
 }

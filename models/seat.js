@@ -79,9 +79,16 @@ Seat.methods.updateSeat = async function ({ studentID }) {
     }
 }
 
-Seat.methods.isTaken = function () {
-    if(this.studentID) {
-        throw new Error('seat is already taken!')
+Seat.methods.isTaken = function (opt) {
+    switch (opt) {
+        case 'reserve':
+            if(this.studentID) throw new Error('seat is already taken!')
+            break
+        case 'return':
+            if(!this.studentID) throw new Error('seat is not occupied!')
+            break
+        default:
+            throw new Error('specify option!')
     }
 }
 

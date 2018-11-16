@@ -15,10 +15,6 @@ const User = new Schema({
     }
 })
 
-/**
- * await --> try catch로 exception handling 필요
- * */
-
 // statics -> for class
 User.statics.create = async function (email, studentID, password, name) {
     try {
@@ -47,9 +43,16 @@ User.methods.verify = function (password) {
     return this.password === encrypt(password)
 }
 
-User.methods.hasSeat = function () {
-    if(this.sid) {
-        throw new Error(`user already has a seat! (sid: ${this.sid})`)
+User.methods.hasSeat = function (opt) {
+    switch(opt) {
+        case 'reserve':
+            if(this.sid) throw new Error(`user already has a seat! (sid: ${this.sid})`)
+            break
+        case 'return':
+            if(!this.sid) throw new Error('user got no seat to return!')
+            break
+        default:
+            throw new Error('specify option!')
     }
 }
 
