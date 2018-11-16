@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken')
+import jwt from 'jsonwebtoken'
 
 module.exports = async (req, res, next) => {
     const token = req.header['x-access-token'] || req.query.token

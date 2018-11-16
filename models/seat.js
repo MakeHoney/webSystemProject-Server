@@ -1,12 +1,42 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const Seat = new Schema({
     sid: Number,
     floor: Number,
     occupiedTime: { type: Date, default: Date.now() },
-    user: { type: Number, ref: 'User' }
+    user: { type: String, ref: 'User', default: '' }
 })
+
+// scheduler function
+Seat.statics.renewSeat = async function () {
+    try {
+        // 120 -> 고정된 상수로 변경할 것
+        for(let i = 0; i < 120; i++) {
+            let seat = await this.findOne({ sid: i })
+            const occupiedTime = seat.occupiedTime.getTime()
+            const now = new Date().getTime()
+            const difference = now - occupiedTime
+            // try {
+            //     let testSeat = await this.findOne({sid: i}).populate('user')
+            // } catch (err) {
+            //     console.err(err)
+            // }
+            let testSeat = await this.findOne({sid: i}).populate('user')
+            console.log(testSeat)
+            // 2 hours: 60000 * 60 * 2
+
+            if(difference > 60000) {
+                // uid -> ''
+                // occupied time -> Date.now()
+                await seat.update({ user: 5 })
+                await seat.save()
+            }
+        }
+    } catch (err) {
+
+    }
+}
 
 Seat.statics.findOneBySID = async function (sid) {
     try {
@@ -26,8 +56,7 @@ Seat.statics.mount = async function (first, second, third, fourth) {
             for (let j = 0; j < arguments[i]; j++, sid++) {
                 let seat = new this({
                     sid,
-                    floor: i,
-                    isOccupied: false
+                    floor: i
                 })
                 await seat.save()
             }
@@ -51,5 +80,4 @@ Seat.methods.isTaken = function () {
     }
 }
 
-
-module.exports = mongoose.model('Seat', Seat)
+export default mongoose.model('Seat', Seat)

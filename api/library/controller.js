@@ -1,11 +1,10 @@
-const Seat = require('../../models/seat')
-const User = require('../../models/user')
+import { User, Seat } from '../../models'
 
-exports.reserve = async (req, res) => {
-    let { uid, sid } = req.body
+export const reserve = async (req, res) => {
+    let { studentID, sid } = req.body
 
     try {
-        let user = await User.findOneByUID(uid)
+        let user = await User.findOneByUID(studentID)
         let seat = await Seat.findOneBySID(sid)
 
         user.hasSeat()
@@ -32,7 +31,7 @@ exports.reserve = async (req, res) => {
     }
 }
 
-exports.mount = async (req, res) => {
+export const mount = async (req, res) => {
     let { first, second, third, fourth } = req.body
     try {
         await Seat.mount(first, second, third, fourth)

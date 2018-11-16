@@ -1,7 +1,8 @@
-const express = require('express')
-const authCheck = require('../middlewares/auth-check')
-const { register, login, check } = require('./controller')
+import express from 'express'
+import authCheck from '../middlewares/auth-check'
+import { register, login, check } from './controller'
 const router = express.Router()
+
 
 router.use('/check', authCheck)
 

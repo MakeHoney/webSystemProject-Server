@@ -1,6 +1,6 @@
-import { Person, Story } from './test_models'
+import { Seat, User } from '../models'
 import mongoose from "mongoose";
-const assert = require('assert')
+import assert from 'assert'
 
 // Describe tests
 describe('Populate', () => {
@@ -9,8 +9,8 @@ describe('Populate', () => {
     beforeEach(async () => {
         // Drop the collection
         try {
-            await mongoose.connection.collections.people.drop()
-            await mongoose.connection.collections.stories.drop()
+            // await mongoose.connection.collections.seats.drop()
+            // await Seat.mount(30, 30, 30, 30)
         } catch (err) {
             console.error('there is no collection to delete')
         }
@@ -18,24 +18,9 @@ describe('Populate', () => {
 
 
     it('Populate test1', async () => {
-        let author = new Person({
-            name: 'Ian Fleming',
-            age: 50
-        })
-        await author.save()
-
-        let story1 = new Story({
-            title: 'Casino Royale',
-            author: author._id
-        })
-        await story1.save()
-
-        const result = await Person.findOne({ name: 'Ian Fleming' })
-        const story = await Story.findOne({ title: 'Casino Royale' })
-            .populate('author')
-        console.log(result)
-        console.log(story.author)
-        // assert(char.isNew === false)
+        const seat1 = await Seat.findOne({ sid: 1 })
+        await Seat.renewSeat()
+        assert(seat1.sid === 1)
     })
 
     // next test

@@ -1,11 +1,14 @@
-const mongoose = require('mongoose')
-const { encrypt } = require('../utils/encrypt')
+import mongoose from 'mongoose'
+import { encrypt } from '../utils/encrypt'
 const Schema = mongoose.Schema
 
 const User = new Schema({
-    uid: String,
+    email: String,
+    studentID: String,
     password: String,
-    seat: { type: Number, ref: 'Seat' }
+    name: String,
+    createdAt: { type: Date, default: Date.now() },
+    seat: { type: Number, ref: 'Seat', default: -1 }
 })
 
 /**
@@ -13,15 +16,13 @@ const User = new Schema({
  * */
 
 // statics -> for class
-User.statics.create = async function (uid, password) {
+User.statics.create = async function (email, studentID, password, name) {
     try {
         const user = new this({
-            uid,
+            email,
+            studentID,
             password: encrypt(password),
-            seatOccupying: {
-                floor: '',
-                sid: ''
-            }
+            name
         })
         return await user.save()
     } catch (err) {
@@ -29,10 +30,10 @@ User.statics.create = async function (uid, password) {
     }
 }
 
-User.statics.findOneByUID = async function (uid) {
+User.statics.findOneByUID = async function (studentID) {
     try {
         return await this.findOne({
-            uid
+            studentID
         })
     } catch (err) {
         throw new Error(err)
@@ -45,17 +46,17 @@ User.methods.verify = function (password) {
 }
 
 User.methods.hasSeat = function () {
-    if(this.seatOccupying.sid) {
+    if(this.seat !== -1) {
         throw new Error(`user already has a seat! (sid: ${this.seatOccupying.sid})`)
     }
 }
 
-User.methods.updateSeatInfo = async function ({ seatOccupying }) {
+User.methods.updateSeatInfo = async function ({ seat }) {
     try {
-        await this.update({ seatOccupying })
+        await this.update({ seat })
     } catch (err) {
         throw new Error(err)
     }
 }
 
-module.exports = mongoose.model('User', User)
+export default mongoose.model('User', User)

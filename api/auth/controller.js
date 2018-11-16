@@ -1,18 +1,22 @@
-const User = require('../../models/user')
-const jwt = require('jsonwebtoken')
+import { User } from '../../models'
+import jwt from 'jsonwebtoken'
 
-exports.register = async (req, res) => {
-    const { uid, password } = req.body
-    const createUser = user => {
-        if (user) {
-            throw new Error('user name already exist!')
-        } else {
-            User.create(uid, password)
+export const register = async (req, res) => {
+    const { email, studentID, password, name } = req.body
+    const createUser = async user => {
+        try {
+            if (user) {
+                throw new Error('user name already exist!')
+            } else {
+                await User.create(email, studentID, password, name)
+            }
+        } catch (err) {
+            throw new Error(err)
         }
     }
 
     try {
-        let userExist = await User.findOneByUID(uid)
+        let userExist = await User.findOneByUID(studentID)
         await createUser(userExist)
         res.json({
             message: 'successfully registered!'
@@ -24,8 +28,8 @@ exports.register = async (req, res) => {
     }
 }
 
-exports.login = async (req, res) => {
-    const { uid, password } = req.body
+export const login = async (req, res) => {
+    const { studentID, password } = req.body
     const secret = req.app.get('jwt-secret')
 
     const check = user => {
@@ -37,7 +41,7 @@ exports.login = async (req, res) => {
                     jwt.sign(
                         {
                             _id: user._id,
-                            uid: user.uid,
+                            studentID: user.studentID,
                         },
                         secret,
                         {
@@ -55,11 +59,11 @@ exports.login = async (req, res) => {
     }
 
     try {
-        let userExist = await User.findOneByUID(uid)
+        let userExist = await User.findOneByUID(studentID)
         let token = await check(userExist)
         res.json({
             message: 'signed in successfully!',
-            uid,
+            studentID,
             token
         })
     } catch (err) {
@@ -69,7 +73,7 @@ exports.login = async (req, res) => {
     }
 }
 
-exports.check = (req, res) => {
+export const check = (req, res) => {
     res.json({
         success: true,
         info: req.decoded

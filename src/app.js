@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import db from './dbConnection'
-import config from '../config'
+import { config } from '../config'
 
 const app = express()
 db.connect()
