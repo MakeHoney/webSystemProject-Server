@@ -1,8 +1,8 @@
 import { User, Seat } from '../../models'
+
 export const controller = {
     async reserveSeat(req, res) {
         const { studentID, sid } = req.body
-
         try {
             const user = await User.findOne({ studentID })
             const seat = await Seat.findOne({ sid })
@@ -54,10 +54,32 @@ export const controller = {
         }
     },
     async extendSeat(req, res) {
+        const { studentID } = req.body
 
+        try {
+            const user = await User.findOne({ studentID })
+                .populate('sid')
+            // exception handler for user
+            user.hasSeat('return')
+
+            const seat = Seat.findById(user.sid._id)
+            // exception handler for seat
+            seat.isTaken('return')
+
+            // update time
+            await seat.update({ occupiedTime: Date.now() })
+
+            res.json({
+                message: 'successfully extended!'
+            })
+        } catch (err) {
+            res.status.json({
+                message: err.message
+            })
+        }
     },
     async mount(req, res) {
-        let { first, second, third, fourth } = req.body
+        const { first, second, third, fourth } = req.body
         try {
             await Seat.mount(first, second, third, fourth)
             res.json({
