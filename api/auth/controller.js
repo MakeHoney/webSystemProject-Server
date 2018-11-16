@@ -16,7 +16,7 @@ export const register = async (req, res) => {
     }
 
     try {
-        let userExist = await User.findOneByUID(studentID)
+        let userExist = await User.findOne({ studentID })
         await createUser(userExist)
         res.json({
             message: 'successfully registered!'
@@ -59,7 +59,7 @@ export const login = async (req, res) => {
     }
 
     try {
-        let userExist = await User.findOneByUID(studentID)
+        let userExist = await User.findOne({ studentID })
         let token = await check(userExist)
         res.json({
             message: 'signed in successfully!',
