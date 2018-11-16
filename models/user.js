@@ -30,14 +30,6 @@ User.statics.create = async function (email, studentID, password, name) {
     }
 }
 
-User.statics.findOneByUID = async function (studentID) {
-    try {
-        return this.findOne({ studentID })
-    } catch (err) {
-        throw new Error(err)
-    }
-}
-
 // methods -> for specific instance
 User.methods.verify = function (password) {
     return this.password === encrypt(password)
@@ -53,14 +45,6 @@ User.methods.hasSeat = function (opt) {
             break
         default:
             throw new Error('specify option!')
-    }
-}
-
-User.methods.updateSeatInfo = async function ({ sid }) {
-    try {
-        await this.update({ sid })
-    } catch (err) {
-        throw new Error(err)
     }
 }
 

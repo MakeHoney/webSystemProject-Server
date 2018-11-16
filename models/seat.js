@@ -16,7 +16,7 @@ const Seat = new Schema({
 })
 
 // scheduler function
-Seat.statics.renewSeat = async function () {
+Seat.statics.renew = async function () {
     try {
         // 120 -> 고정된 상수로 변경할 것
         for(let i = 0; i < 120; i++) {
@@ -45,14 +45,6 @@ Seat.statics.renewSeat = async function () {
     }
 }
 
-Seat.statics.findOneBySID = async function (sid) {
-    try {
-        return await this.findOne({ sid })
-    } catch (err) {
-        throw new Error(err)
-    }
-}
-
 Seat.statics.mount = async function (first, second, third, fourth) {
     let sid = 0
 
@@ -66,14 +58,6 @@ Seat.statics.mount = async function (first, second, third, fourth) {
                 await seat.save()
             }
         }
-    } catch (err) {
-        throw new Error(err)
-    }
-}
-
-Seat.methods.updateSeat = async function ({ studentID }) {
-    try {
-        await this.update({ studentID })
     } catch (err) {
         throw new Error(err)
     }

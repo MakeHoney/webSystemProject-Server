@@ -11,8 +11,8 @@ export const controller = {
             user.hasSeat('reserve')
             seat.isTaken('reserve')
 
-            await user.updateSeatInfo({ sid: seat._id })
-            await seat.updateSeat({ studentID: user._id })
+            await user.update({ sid: seat._id })
+            await seat.update({ studentID: user._id })
 
             res.json({
                 message: 'successfully reserved'
