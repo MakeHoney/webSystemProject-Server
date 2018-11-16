@@ -7,7 +7,7 @@ export const controller = {
         const createUser = async user => {
             try {
                 if (user) {
-                    throw new Error('user name already exist!')
+                    throw new Error('same student ID already exist!')
                 } else {
                     await User.create(email, studentID, password, name)
                 }
@@ -29,7 +29,7 @@ export const controller = {
         }
     },
     async login(req, res) {
-        const { studentID, password } = req.body
+        const { email, password } = req.body
         const secret = req.app.get('jwt-secret')
 
         const check = user => {
@@ -41,7 +41,7 @@ export const controller = {
                         jwt.sign(
                             {
                                 _id: user._id,
-                                studentID: user.studentID,
+                                email: user.email,
                             },
                             secret,
                             {
@@ -59,11 +59,11 @@ export const controller = {
         }
 
         try {
-            let userExist = await User.findOne({ studentID })
+            let userExist = await User.findOne({ email })
             let token = await check(userExist)
             res.json({
                 message: 'signed in successfully!',
-                studentID,
+                email,
                 token
             })
         } catch (err) {
