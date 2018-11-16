@@ -84,7 +84,7 @@ Seat.methods.isTaken = function (opt) {
         case 'reserve':
             if(this.studentID) throw new Error('seat is already taken!')
             break
-        case 'return':
+        case 'returnOrExtend':
             if(!this.studentID) throw new Error('seat is not occupied!')
             break
         default:

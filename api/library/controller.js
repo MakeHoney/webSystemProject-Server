@@ -60,11 +60,11 @@ export const controller = {
             const user = await User.findOne({ studentID })
                 .populate('sid')
             // exception handler for user
-            user.hasSeat('return')
+            user.hasSeat('returnOrExtend')
 
             const seat = Seat.findById(user.sid._id)
             // exception handler for seat
-            seat.isTaken('return')
+            seat.isTaken('returnOrExtend')
 
             // update time
             await seat.update({ occupiedTime: Date.now() })
