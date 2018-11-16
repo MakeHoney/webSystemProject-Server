@@ -1,8 +1,9 @@
 import express from 'express'
-import { reserve, mount } from './controller'
+import { reserveSeat, returnSeat, mount } from './controller'
 const router = express.Router()
 
-router.post('/reserve', reserve)
+router.post('/reserve', reserveSeat)
+router.post('/return', returnSeat)
 router.post('/db-mount', mount)
 
 module.exports = router

@@ -1,24 +1,17 @@
 import { User, Seat } from '../../models'
 
-export const reserve = async (req, res) => {
-    let { studentID, sid } = req.body
+export const reserveSeat = async (req, res) => {
+    const { studentID, sid } = req.body
 
     try {
-        let user = await User.findOneByUID(studentID)
-        let seat = await Seat.findOneBySID(sid)
+        const user = await User.findOneByUID(studentID)
+        const seat = await Seat.findOneBySID(sid)
 
         user.hasSeat()
         seat.isTaken()
 
-        const seatOccupying = {
-            floor: seat.floor,
-            sid,
-            default: Date.now(),
-            expires: 120
-        }
-
-        user.updateSeatInfo({ seatOccupying })
-        seat.updateSeat({ isOccupied: true })
+        await user.updateSeatInfo({ sid: seat._id })
+        await seat.updateSeat({ studentID: user._id })
 
         res.json({
             message: 'successfully reserved'
@@ -29,6 +22,30 @@ export const reserve = async (req, res) => {
             message: err.message
         })
     }
+}
+
+export const returnSeat = async (req, res) => {
+    const { studentID } = req.body
+
+    // need exception handling (반납할 좌석이 없는 경우)
+    try {
+        const user = await User.findOne({studentID})
+            .populate('sid')
+
+        // seat의 studentID, occupiedTime 초기화
+        const seat = await Seat.findById(user.sid._id)
+        await seat.update({studentID: null})
+        await seat.update({occupiedTime: null})
+
+        // user의 sid 초기화
+        await user.update({sid: null})
+        res.json({
+            message: 'successfully returned!'
+        })
+    } catch (err) {
+        console.error('error occurred', err)
+    }
+
 }
 
 export const mount = async (req, res) => {

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-mongoose.connect('mongodb://localhost/mocha_test')
+mongoose.connect('mongodb://localhost/websi')
 
 mongoose.connection.once('open', () => {
     console.log('Mongo connection has been made')

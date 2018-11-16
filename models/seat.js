@@ -4,8 +4,15 @@ const Schema = mongoose.Schema
 const Seat = new Schema({
     sid: Number,
     floor: Number,
-    occupiedTime: { type: Date, default: Date.now() },
-    user: { type: String, ref: 'User', default: '' }
+    occupiedTime: {
+        type: Date,
+        default: null
+    },
+    studentID: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    }
 })
 
 // scheduler function
@@ -40,9 +47,7 @@ Seat.statics.renewSeat = async function () {
 
 Seat.statics.findOneBySID = async function (sid) {
     try {
-        return await this.findOne({
-            sid
-        })
+        return await this.findOne({ sid })
     } catch (err) {
         throw new Error(err)
     }
@@ -66,16 +71,16 @@ Seat.statics.mount = async function (first, second, third, fourth) {
     }
 }
 
-Seat.methods.updateSeat = async function ({ isOccupied }) {
+Seat.methods.updateSeat = async function ({ studentID }) {
     try {
-        await this.update({ isOccupied })
+        await this.update({ studentID })
     } catch (err) {
         throw new Error(err)
     }
 }
 
 Seat.methods.isTaken = function () {
-    if(this.isOccupied) {
+    if(this.studentID) {
         throw new Error('seat is already taken!')
     }
 }

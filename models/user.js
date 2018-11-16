@@ -8,7 +8,11 @@ const User = new Schema({
     password: String,
     name: String,
     createdAt: { type: Date, default: Date.now() },
-    seat: { type: Number, ref: 'Seat', default: -1 }
+    sid: {
+        type: Schema.Types.ObjectId,
+        ref: 'Seat',
+        default: null
+    }
 })
 
 /**
@@ -32,9 +36,7 @@ User.statics.create = async function (email, studentID, password, name) {
 
 User.statics.findOneByUID = async function (studentID) {
     try {
-        return await this.findOne({
-            studentID
-        })
+        return this.findOne({ studentID })
     } catch (err) {
         throw new Error(err)
     }
@@ -46,14 +48,14 @@ User.methods.verify = function (password) {
 }
 
 User.methods.hasSeat = function () {
-    if(this.seat !== -1) {
-        throw new Error(`user already has a seat! (sid: ${this.seatOccupying.sid})`)
+    if(this.sid) {
+        throw new Error(`user already has a seat! (sid: ${this.sid})`)
     }
 }
 
-User.methods.updateSeatInfo = async function ({ seat }) {
+User.methods.updateSeatInfo = async function ({ sid }) {
     try {
-        await this.update({ seat })
+        await this.update({ sid })
     } catch (err) {
         throw new Error(err)
     }
