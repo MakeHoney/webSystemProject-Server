@@ -1,13 +1,12 @@
 import express from 'express'
 import authCheck from '../middlewares/auth-check'
-import { register, login, check } from './controller'
+import { controller } from './controller'
 const router = express.Router()
-
 
 router.use('/check', authCheck)
 
-router.post('/register', register)
-router.post('/login', login)
-router.get('/check', check)
+router.post('/register', controller.register)
+router.post('/login', controller.login)
+router.get('/check', controller.check)
 
-module.exports = router
+export default router

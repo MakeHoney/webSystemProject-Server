@@ -26,8 +26,6 @@ export const controller = {
     },
     async returnSeat(req, res) {
         const { studentID } = req.body
-
-        // need exception handling (반납할 좌석이 없는 경우)
         try {
             const user = await User.findOne({studentID})
                 .populate('sid')
@@ -55,7 +53,6 @@ export const controller = {
     },
     async extendSeat(req, res) {
         const { studentID } = req.body
-
         try {
             const user = await User.findOne({ studentID })
                 .populate('sid')

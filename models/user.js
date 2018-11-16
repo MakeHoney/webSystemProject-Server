@@ -7,7 +7,10 @@ const User = new Schema({
     studentID: String,
     password: String,
     name: String,
-    createdAt: { type: Date, default: Date.now() },
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
     sid: {
         type: Schema.Types.ObjectId,
         ref: 'Seat',

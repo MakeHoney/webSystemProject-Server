@@ -7,4 +7,4 @@ router.post('/return', controller.returnSeat)
 router.post('/extend', controller.extendSeat)
 router.post('/db-mount', controller.mount)
 
-module.exports = router
+export default router
