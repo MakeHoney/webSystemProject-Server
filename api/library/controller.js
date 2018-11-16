@@ -30,11 +30,11 @@ export const controller = {
             const user = await User.findOne({studentID})
                 .populate('sid')
             // exception handler for user
-            user.hasSeat('return')
+            user.hasSeat('returnOrExtend')
 
             const seat = await Seat.findById(user.sid._id)
             // exception handler for seat
-            seat.isTaken('return')
+            seat.isTaken('returnOrExtend')
 
             // seat's studentID, occupiedTime 초기화
             await seat.update({studentID: null})
@@ -53,13 +53,16 @@ export const controller = {
     },
     async extendSeat(req, res) {
         const { studentID } = req.body
+        /*
+        * TODO: need exception handling for extension within 2hours
+        * */
         try {
             const user = await User.findOne({ studentID })
                 .populate('sid')
             // exception handler for user
             user.hasSeat('returnOrExtend')
 
-            const seat = Seat.findById(user.sid._id)
+            const seat = await Seat.findById(user.sid._id)
             // exception handler for seat
             seat.isTaken('returnOrExtend')
 
@@ -70,7 +73,7 @@ export const controller = {
                 message: 'successfully extended!'
             })
         } catch (err) {
-            res.status.json({
+            res.status(500).json({
                 message: err.message
             })
         }

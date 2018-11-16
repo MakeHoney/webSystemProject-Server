@@ -44,7 +44,7 @@ User.methods.hasSeat = function (opt) {
             if(this.sid) throw new Error(`user already has a seat! (sid: ${this.sid})`)
             break
         case 'returnOrExtend':
-            if(!this.sid) throw new Error('user got no seat to return!')
+            if(!this.sid) throw new Error('user got no seat to return or extend!')
             break
         default:
             throw new Error('specify option!')

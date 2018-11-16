@@ -1,5 +1,6 @@
 import { User } from '../../models'
 import jwt from 'jsonwebtoken'
+
 export const controller = {
     async register(req, res) {
         const { email, studentID, password, name } = req.body
