@@ -2,6 +2,10 @@ import { Seat, User } from '../models'
 import mongoose from "mongoose"
 import assert from 'assert'
 
+/**
+ * TODO: make basic test for reserve, extend and return
+ * */
+
 // Describe tests
 describe('Populate', () => {
 
@@ -17,10 +21,5 @@ describe('Populate', () => {
     })
 
     it('Populate test1', async () => {
-        // const seat1 = await Seat.findOne({ sid: 1 })
-        // await Seat.renewSeat()
-        // assert(seat1.sid === 1)
     })
-
-    // next test
 })
