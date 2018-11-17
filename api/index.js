@@ -7,4 +7,4 @@ const router = express.Router()
 router.use('/auth', auth)
 router.use('/library', library)
 
-module.exports = router
+export default router

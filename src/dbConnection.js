@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { config } from "../config";
-module.exports = {
+export default {
     connect() {
         mongoose.connect(config.mongoURI)
         const db = mongoose.connection
