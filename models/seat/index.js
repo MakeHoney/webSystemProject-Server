@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { utils } from './utils'
 const Schema = mongoose.Schema
 
 const Seat = new Schema({
@@ -15,65 +16,10 @@ const Seat = new Schema({
     }
 })
 
-// scheduler function
-Seat.statics.renew = async function () {
-    try {
-        // 120 -> 고정된 상수로 변경할 것
-        for(let i = 0; i < 120; i++) {
-            let seat = await this.findOne({ sid: i })
-            const occupiedTime = seat.occupiedTime.getTime()
-            const now = new Date().getTime()
-            const difference = now - occupiedTime
-            // try {
-            //     let testSeat = await this.findOne({sid: i}).populate('user')
-            // } catch (err) {
-            //     console.err(err)
-            // }
-            let testSeat = await this.findOne({sid: i}).populate('user')
-            console.log(testSeat)
-            // 2 hours: 60000 * 60 * 2
-
-            if(difference > 60000) {
-                // uid -> ''
-                // occupied time -> Date.now()
-                await seat.update({ user: 5 })
-                await seat.save()
-            }
-        }
-    } catch (err) {
-
-    }
-}
-
-Seat.statics.mount = async function (first, second, third, fourth) {
-    let sid = 0
-
-    try {
-        for (let i = 0; i < arguments.length; i++) {
-            for (let j = 0; j < arguments[i]; j++, sid++) {
-                let seat = new this({
-                    sid,
-                    floor: i
-                })
-                await seat.save()
-            }
-        }
-    } catch (err) {
-        throw new Error(err)
-    }
-}
-
-Seat.methods.isTaken = function (opt) {
-    switch (opt) {
-        case 'reserve':
-            if(this.studentID) throw new Error('seat is already taken!')
-            break
-        case 'returnOrExtend':
-            if(!this.studentID) throw new Error('seat is not occupied!')
-            break
-        default:
-            throw new Error('specify option!')
-    }
-}
+// statics -> for class
+Seat.statics.renew = utils.statics.renewSeat
+Seat.statics.mount = utils.statics.mountSeat
+// methods -> for specific instance
+Seat.methods.isTaken = utils.methods.checkSeatIsTaken
 
 export default mongoose.model('Seat', Seat)
