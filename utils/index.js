@@ -3,7 +3,7 @@ import { dbConnection } from './db-connection'
 import { encrypt } from './encrypt'
 
 export const utils = {
-	createToken,
-	dbConnection,
-	encrypt
+  createToken,
+  dbConnection,
+  encrypt
 }
