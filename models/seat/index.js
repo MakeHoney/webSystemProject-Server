@@ -4,17 +4,17 @@ import { modules } from './modules'
 const Schema = mongoose.Schema
 
 const Seat = new Schema({
-    sid: Number,
-    floor: Number,
-    occupiedTime: {
-        type: Date,
-        default: null
-    },
-    studentID: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        default: null
-    }
+  sid: Number,
+  floor: Number,
+  occupiedTime: {
+    type: Date,
+    default: null
+  },
+  studentID: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  }
 })
 
 // statics -> for class

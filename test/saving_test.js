@@ -1,5 +1,6 @@
-import { Seat, User } from '../models'
 import mongoose from "mongoose"
+import { Seat, User } from '../models'
+import { dbConnection } from './connection'
 import assert from 'assert'
 
 /**
@@ -7,19 +8,54 @@ import assert from 'assert'
  * */
 
 // Describe tests
-describe('Populate', () => {
+describe('Central Library', () => {
+  let mocha_test, test_user = null
 
-	// Drop the characters collection before each test
-	beforeEach(async () => {
-		// Drop the collection
-		try {
-			await mongoose.connection.collections.seats.drop()
-			await Seat.mount(30, 30, 30, 30)
-		} catch (err) {
-			console.error('there is no collection to delete')
-		}
-	})
+  before(async () => {
+    mocha_test = await dbConnection()
+  })
 
-	it('Populate test1', async () => {
-	})
+  // Drop the seats collection before each test
+  beforeEach(async () => {
+    // TODO: make function for mounting collection before each test
+
+    // Call list of collections
+    let collections = await mocha_test.db.listCollections().toArray()
+
+    // Check the collection (seat) already exist
+    for (let collection of collections) {
+
+      // If collection exists, drop original collection
+      if (collection.name === 'seats') {
+        await mongoose.connection.collections.seats.drop()
+        break
+      }
+    }
+
+    // mount seats data
+    await Seat.mount(30, 30, 30, 30)
+
+    // register test user
+    try {
+      await User.register({
+        studentID: '201523483',
+        email: 'pourmonreve@ajou.ac.kr',
+        password: 'pass',
+        name: 'Byunghun'
+      })
+    } catch (err) {
+      console.error(err)
+    }
+
+    test_user = await User.findOne({ email: 'pourmonreve@ajou.ac.kr' })
+  })
+
+  afterEach(async () => {
+    await test_user.remove()
+    test_user = null
+  })
+
+  it('Reserve a seat test', async () => {
+    // Seat.reserve()
+  })
 })
