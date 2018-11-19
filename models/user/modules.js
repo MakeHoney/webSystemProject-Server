@@ -1,14 +1,13 @@
-import { encrypt } from '../../utils/encrypt'
-import { createToken } from '../../utils/create-token'
+import { utils } from '../../utils'
 
-export const utils = {
+export const modules = {
 	statics: {
 		async createUser (email, studentID, password, name) {
 			try {
 				const user = new this({
 					email,
 					studentID,
-					password: encrypt(password),
+					password: utils.encrypt(password),
 					name
 				})
 				return await user.save()
@@ -35,7 +34,7 @@ export const utils = {
 				throw new Error("user doesn't exist!")
 			} else {
 				if(user.verify(password)) {
-					return await createToken({ user, secret })
+					return await utils.createToken({ user, secret })
 				} else {
 					throw new Error('wrong password')
 				}
@@ -44,7 +43,7 @@ export const utils = {
 	},
 	methods: {
 		verifyUser (password) {
-			return this.password === encrypt(password)
+			return this.password === utils.encrypt(password)
 		},
 		checkUserHasSeat (opt) {
 			switch(opt) {

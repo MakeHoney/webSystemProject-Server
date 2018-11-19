@@ -1,6 +1,6 @@
 import User from "../user";
 
-export const utils = {
+export const modules = {
 	statics: {
 		async reserveSeat ({ studentID, sid }) {
 			const user = await User.findOne({ studentID })

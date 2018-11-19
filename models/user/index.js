@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { utils } from './utils'
+import { modules } from './modules'
 const Schema = mongoose.Schema
 
 const User = new Schema({
@@ -19,11 +19,11 @@ const User = new Schema({
 })
 
 // statics -> for class
-User.statics.create = utils.statics.createUser
-User.statics.register = utils.statics.registerUser
-User.statics.checkAuth = utils.statics.checkUserAuth
+User.statics.create = modules.statics.createUser
+User.statics.register = modules.statics.registerUser
+User.statics.checkAuth = modules.statics.checkUserAuth
 // methods -> for specific instance
-User.methods.verify = utils.methods.verifyUser
-User.methods.hasSeat = utils.methods.checkUserHasSeat
+User.methods.verify = modules.methods.verifyUser
+User.methods.hasSeat = modules.methods.checkUserHasSeat
 
 export default mongoose.model('User', User)

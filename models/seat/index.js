@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { utils } from './utils'
+import { modules } from './modules'
 
 const Schema = mongoose.Schema
 
@@ -18,12 +18,12 @@ const Seat = new Schema({
 })
 
 // statics -> for class
-Seat.statics.reserve = utils.statics.reserveSeat
-Seat.statics.return = utils.statics.returnSeat
-Seat.statics.extend = utils.statics.extendSeat
-Seat.statics.renew = utils.statics.renewSeat
-Seat.statics.mount = utils.statics.mountSeat
+Seat.statics.reserve = modules.statics.reserveSeat
+Seat.statics.return = modules.statics.returnSeat
+Seat.statics.extend = modules.statics.extendSeat
+Seat.statics.renew = modules.statics.renewSeat
+Seat.statics.mount = modules.statics.mountSeat
 // methods -> for specific instance
-Seat.methods.isTaken = utils.methods.checkSeatIsTaken
+Seat.methods.isTaken = modules.methods.checkSeatIsTaken
 
 export default mongoose.model('Seat', Seat)
