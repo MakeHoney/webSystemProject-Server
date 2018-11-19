@@ -8,7 +8,8 @@ import assert from 'assert'
  * */
 
 // Describe tests
-describe('Central Library', () => {
+// TODO: token 관련 테스트도 추가할 것 (ex. 로그인 안된 상태에서 자리예약 등)
+describe('RESERVATION TEST', () => {
   let test_user = null
   let test_user2 = null
   let mocha_test
@@ -34,6 +35,7 @@ describe('Central Library', () => {
       }
     }
 
+    // TODO: mount 메소드 test 디렉토리로 옮길 것 (독립적인 메소드로 동작하도록)
     // mount seats data
     await Seat.mount(30, 30, 30, 30)
 
@@ -63,7 +65,7 @@ describe('Central Library', () => {
     await test_user2.remove()
   })
 
-  it('유저 자리 신청 테스트', async () => {
+  it('Test1: 일반적인 빈 자리를 신청하는 경우', async () => {
     // Reserve a seat
     await Seat.reserve({ studentID: test_user.studentID, seatNum: 19 })
     // Load Document
@@ -74,7 +76,8 @@ describe('Central Library', () => {
     assert(user.seat._id.toString() === seat._id.toString())
   })
 
-  it('타인에 의해 이미 신청된 자리 신청 테스트', async () => {
+  it('Test2: 이미 신청된 자리를 신청하는 경우', async () => {
+    let error = null
     // Reserve a seat
     await Seat.reserve({ studentID: test_user.studentID, seatNum: 19 })
 
@@ -82,11 +85,16 @@ describe('Central Library', () => {
     try {
       await Seat.reserve({ studentID: test_user2.studentID, seatNum: 19 })
     } catch (err) {
-      assert(err)
+      error = err
     }
+    assert(error)
 
     // User2 must have no seat.
     let user2 = await User.findOne({ studentID: test_user2.studentID })
     assert(!user2.seat)
+  })
+
+  it('Test3: 이미 자리가 있는 유저가 반납 없이 다른 자리를 신청하는 경우', async () => {
+
   })
 })
