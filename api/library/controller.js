@@ -1,19 +1,10 @@
-import { User, Seat } from '../../models'
+import { Seat } from '../../models'
 
 export const controller = {
     async reserveSeat(req, res) {
         const { studentID, sid } = req.body
         try {
-            const user = await User.findOne({ studentID })
-            const seat = await Seat.findOne({ sid })
-
-            // exception handler
-            user.hasSeat('reserve')
-            seat.isTaken('reserve')
-
-            await user.update({ sid: seat._id })
-            await seat.update({ studentID: user._id })
-
+            await Seat.reserve({ studentID, sid })
             res.json({
                 message: 'successfully reserved'
             })
@@ -27,21 +18,7 @@ export const controller = {
     async returnSeat(req, res) {
         const { studentID } = req.body
         try {
-            const user = await User.findOne({studentID})
-                .populate('sid')
-            // exception handler for user
-            user.hasSeat('returnOrExtend')
-
-            const seat = await Seat.findById(user.sid._id)
-            // exception handler for seat
-            seat.isTaken('returnOrExtend')
-
-            // seat's studentID, occupiedTime 초기화
-            await seat.update({studentID: null})
-            await seat.update({occupiedTime: null})
-
-            // user's sid 초기화
-            await user.update({sid: null})
+            await Seat.return({ studentID })
             res.json({
                 message: 'successfully returned!'
             })
@@ -57,18 +34,7 @@ export const controller = {
         * TODO: need exception handling for extension within 2hours
         * */
         try {
-            const user = await User.findOne({ studentID })
-                .populate('sid')
-            // exception handler for user
-            user.hasSeat('returnOrExtend')
-
-            const seat = await Seat.findById(user.sid._id)
-            // exception handler for seat
-            seat.isTaken('returnOrExtend')
-
-            // update time
-            await seat.update({ occupiedTime: Date.now() })
-
+            await Seat.extend({ studentID })
             res.json({
                 message: 'successfully extended!'
             })

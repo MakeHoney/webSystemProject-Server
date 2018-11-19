@@ -1,7 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import db from './dbConnection'
+import db from '../utils/dbConnection'
 import { config } from '../config'
 import api from '../api'
 

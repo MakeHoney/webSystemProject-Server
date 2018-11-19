@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { encrypt } from '../utils/encrypt'
+import { utils } from './utils'
 const Schema = mongoose.Schema
 
 const User = new Schema({
@@ -19,36 +19,9 @@ const User = new Schema({
 })
 
 // statics -> for class
-User.statics.create = async function (email, studentID, password, name) {
-    try {
-        const user = new this({
-            email,
-            studentID,
-            password: encrypt(password),
-            name
-        })
-        return await user.save()
-    } catch (err) {
-        throw new Error(err)
-    }
-}
-
+User.statics.create = utils.statics.createUser
 // methods -> for specific instance
-User.methods.verify = function (password) {
-    return this.password === encrypt(password)
-}
-
-User.methods.hasSeat = function (opt) {
-    switch(opt) {
-        case 'reserve':
-            if(this.sid) throw new Error(`user already has a seat! (sid: ${this.sid})`)
-            break
-        case 'returnOrExtend':
-            if(!this.sid) throw new Error('user got no seat to return or extend!')
-            break
-        default:
-            throw new Error('specify option!')
-    }
-}
+User.methods.verify = utils.methods.verifyUser
+User.methods.hasSeat = utils.methods.checkUserHasSeat
 
 export default mongoose.model('User', User)

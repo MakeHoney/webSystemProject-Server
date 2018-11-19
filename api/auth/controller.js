@@ -4,10 +4,12 @@ import jwt from 'jsonwebtoken'
 export const controller = {
     async register(req, res) {
         const { email, studentID, password, name } = req.body
-        const createUser = async user => {
+        const createUser = async ({ stuIDCheck, emailCheck }) => {
             try {
-                if (user) {
+                if (stuIDCheck) {
                     throw new Error('same student ID already exist!')
+                } else if (emailCheck) {
+                    throw new Error('The email already registered!')
                 } else {
                     await User.create(email, studentID, password, name)
                 }
@@ -17,8 +19,9 @@ export const controller = {
         }
 
         try {
-            let userExist = await User.findOne({ studentID })
-            await createUser(userExist)
+            let stuIDCheck = await User.findOne({ studentID })
+            let emailCheck = await User.findOne({ email })
+            await createUser({ stuIDCheck, emailCheck })
             res.json({
                 message: 'successfully registered!'
             })
