@@ -1,9 +1,11 @@
 import mongoose from 'mongoose'
 
-mongoose.connect('mongodb://localhost/websi')
-
-mongoose.connection.once('open', () => {
-  console.log('Mongo connection has been made')
-}).on('error', (err) => {
-  console.error('Mongo connection error', err)
-})
+export const dbConnection = async () => {
+  await mongoose.connect('mongodb://localhost/mocha_test')
+  const db = mongoose.connection
+  db.on('error', console.error)
+  db.once('open', () => {
+    console.log('connected to mongodb server')
+  })
+  return db
+}
