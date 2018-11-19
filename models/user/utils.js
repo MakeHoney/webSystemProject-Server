@@ -1,6 +1,5 @@
 import { encrypt } from '../../utils/encrypt'
 import { createToken } from '../../utils/create-token'
-import User from "./index";
 
 export const utils = {
 	statics: {
