@@ -1,5 +1,48 @@
+import User from "../user";
+
 export const utils = {
     statics: {
+        async reserveSeat ({ studentID, sid }) {
+            const user = await User.findOne({ studentID })
+            const seat = await this.findOne({ sid })
+
+            // exception handler
+            user.hasSeat('reserve')
+            seat.isTaken('reserve')
+
+            await user.update({ sid: seat._id })
+            await seat.update({ studentID: user._id })
+        },
+        async returnSeat ({ studentID }) {
+            const user = await User.findOne({studentID})
+                .populate('sid')
+            // exception handler for user
+            user.hasSeat('returnOrExtend')
+
+            const seat = await this.findById(user.sid._id)
+            // exception handler for seat
+            seat.isTaken('returnOrExtend')
+
+            // seat's studentID, occupiedTime 초기화
+            await seat.update({studentID: null})
+            await seat.update({occupiedTime: null})
+
+            // user's sid 초기화
+            await user.update({sid: null})
+        },
+        async extendSeat ({ studentID }) {
+            const user = await User.findOne({ studentID })
+                .populate('sid')
+            // exception handler for user
+            user.hasSeat('returnOrExtend')
+
+            const seat = await this.findById(user.sid._id)
+            // exception handler for seat
+            seat.isTaken('returnOrExtend')
+
+            // update time
+            await seat.update({ occupiedTime: Date.now() })
+        },
         // scheduler function
         async renewSeat () {
             try {

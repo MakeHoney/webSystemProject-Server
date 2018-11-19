@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { utils } from './utils'
+
 const Schema = mongoose.Schema
 
 const Seat = new Schema({
@@ -17,6 +18,9 @@ const Seat = new Schema({
 })
 
 // statics -> for class
+Seat.statics.reserve = utils.statics.reserveSeat
+Seat.statics.return = utils.statics.returnSeat
+Seat.statics.extend = utils.statics.extendSeat
 Seat.statics.renew = utils.statics.renewSeat
 Seat.statics.mount = utils.statics.mountSeat
 // methods -> for specific instance
