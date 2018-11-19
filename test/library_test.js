@@ -56,6 +56,14 @@ describe('Central Library', () => {
   })
 
   it('Reserve a seat test', async () => {
-    // Seat.reserve()
+    await Seat.reserve({ studentID: test_user.studentID, seatNum: 19 })
+
+    let seat = await Seat.findOne({ seatNum: 19 })
+
+    let user = await User.findOne({ studentID: test_user.studentID })
+      .populate('seat')
+
+    assert(user.seat._id.toString() === seat._id.toString())
+
   })
 })

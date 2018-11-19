@@ -4,7 +4,7 @@ import { modules } from './modules'
 const Schema = mongoose.Schema
 
 const Seat = new Schema({
-  sid: Number,
+  seatNum: Number,
   floor: Number,
   occupiedTime: {
     type: Date,
