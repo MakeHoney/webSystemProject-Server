@@ -1,4 +1,6 @@
 import { encrypt } from '../../utils/encrypt'
+import { createToken } from '../../utils/create-token'
+import User from "./index";
 
 export const utils = {
 	statics: {
@@ -13,6 +15,31 @@ export const utils = {
 				return await user.save()
 			} catch (err) {
 				throw new Error(err)
+			}
+		},
+		async registerUser ({ studentID, email, password, name }) {
+			let stuIDCheck = await this.findOne({ studentID })
+			let emailCheck = await this.findOne({ email })
+
+			if (stuIDCheck) {
+				throw new Error('same student ID already exist!')
+			} else if (emailCheck) {
+				throw new Error('The email already registered!')
+			} else {
+				await this.create(email, studentID, password, name)
+						.catch(err => { throw err })
+			}
+		},
+		async checkUserAuth ({ email, password, secret }) {
+			let user = await this.findOne({ email })
+			if (!user) {
+				throw new Error("user doesn't exist!")
+			} else {
+				if(user.verify(password)) {
+					return await createToken({ user, secret })
+				} else {
+					throw new Error('wrong password')
+				}
 			}
 		}
 	},

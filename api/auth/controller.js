@@ -4,24 +4,8 @@ import jwt from 'jsonwebtoken'
 export const controller = {
 	async register(req, res) {
 		const { email, studentID, password, name } = req.body
-		const createUser = async ({ stuIDCheck, emailCheck }) => {
-			try {
-				if (stuIDCheck) {
-					throw new Error('same student ID already exist!')
-				} else if (emailCheck) {
-					throw new Error('The email already registered!')
-				} else {
-					await User.create(email, studentID, password, name)
-				}
-			} catch (err) {
-				throw new Error(err)
-			}
-		}
-
 		try {
-			let stuIDCheck = await User.findOne({ studentID })
-			let emailCheck = await User.findOne({ email })
-			await createUser({ stuIDCheck, emailCheck })
+			await User.register({ studentID, email, password, name })
 			res.json({
 				message: 'successfully registered!'
 			})
@@ -34,36 +18,8 @@ export const controller = {
 	async login(req, res) {
 		const { email, password } = req.body
 		const secret = req.app.get('jwt-secret')
-
-		const check = user => {
-			if (!user) {
-				throw new Error("user doesn't exist!")
-			} else {
-				if(user.verify(password)) {
-					return new Promise((resolve, reject) => {
-						jwt.sign(
-								{
-									_id: user._id,
-									email: user.email,
-								},
-								secret,
-								{
-									expiresIn: '7d',
-									subject: 'userInfo'
-								}, (err, token) => {
-									if (err) reject(err)
-									resolve(token)
-								})
-					})
-				} else {
-					throw new Error('wrong password')
-				}
-			}
-		}
-
 		try {
-			let userExist = await User.findOne({ email })
-			let token = await check(userExist)
+			const token = await User.checkAuth({ email, password, secret })
 			res.json({
 				message: 'signed in successfully!',
 				email,

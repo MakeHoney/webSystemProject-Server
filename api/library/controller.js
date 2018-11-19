@@ -44,7 +44,7 @@ export const controller = {
 			})
 		}
 	},
-	async mount(req, res) {
+	async mountSeat(req, res) {
 		const { first, second, third, fourth } = req.body
 		try {
 			await Seat.mount(first, second, third, fourth)

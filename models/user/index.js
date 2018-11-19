@@ -20,6 +20,8 @@ const User = new Schema({
 
 // statics -> for class
 User.statics.create = utils.statics.createUser
+User.statics.register = utils.statics.registerUser
+User.statics.checkAuth = utils.statics.checkUserAuth
 // methods -> for specific instance
 User.methods.verify = utils.methods.verifyUser
 User.methods.hasSeat = utils.methods.checkUserHasSeat
