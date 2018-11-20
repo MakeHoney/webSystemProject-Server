@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'
 
 export default async (req, res, next) => {
-  const token = req.header['x-access-token'] || req.query.token
+  const token = req.headers['x-access-token'] || req.body.token || req.query.token
 
   if (!token) {
-    return res.status(403).json({
+    return res.status(500).json({
       success: false,
       message: 'user not signed in'
     })
