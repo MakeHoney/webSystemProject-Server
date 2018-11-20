@@ -85,6 +85,7 @@ describe('RESERVATION TEST', () => {
     try {
       await Seat.reserve({ studentID: test_user2.studentID, seatNum: 19 })
     } catch (err) {
+      // error msg: seat is already taken!
       error = err
     }
     assert(error)
@@ -95,6 +96,26 @@ describe('RESERVATION TEST', () => {
   })
 
   it('Test3: 이미 자리가 있는 유저가 반납 없이 다른 자리를 신청하는 경우', async () => {
+    let error = null
+    await Seat.reserve({ studentID: test_user.studentID, seatNum: 22 })
+    try {
+      await Seat.reserve({ studentID: test_user.studentID, seatNum: 30 })
+    } catch (err) {
+      // error msg: user already has a seat!
+      error = err
+    }
+    assert(error)
 
+    const seat1 = await Seat.findOne({ seatNum: 22 })
+      .populate('studentID')
+    const seat2 = await Seat.findOne({ seatNum: 30 })
+      .populate('studentID')
+    const user = await User.findOne({ studentID: test_user.studentID })
+
+    // Seat2 must don't have a user
+    assert(!seat2.studentID)
+
+    // Seat1's User and Test user must be same person
+    assert(seat1.studentID._id.toString() === user._id.toString())
   })
 })
