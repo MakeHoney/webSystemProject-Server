@@ -65,6 +65,7 @@ describe('RESERVATION TEST', () => {
     await test_user2.remove()
   })
 
+  // TEST 1
   it('Test1: 일반적인 빈 자리를 신청하는 경우', async () => {
     // Reserve a seat
     await Seat.reserve({ studentID: test_user.studentID, seatNum: 19 })
@@ -76,6 +77,7 @@ describe('RESERVATION TEST', () => {
     assert(user.seat._id.toString() === seat._id.toString())
   })
 
+  // TEST 2
   it('Test2: 이미 신청된 자리를 신청하는 경우', async () => {
     let error = null
     // Reserve a seat
@@ -95,6 +97,7 @@ describe('RESERVATION TEST', () => {
     assert(!user2.seat)
   })
 
+  // TEST 3
   it('Test3: 이미 자리가 있는 유저가 반납 없이 다른 자리를 신청하는 경우', async () => {
     let error = null
     await Seat.reserve({ studentID: test_user.studentID, seatNum: 22 })

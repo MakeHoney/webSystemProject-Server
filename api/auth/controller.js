@@ -9,7 +9,7 @@ export const controller = {
         message: 'successfully registered!'
       })
     } catch (err) {
-      res.status(409).json({
+      res.status(500).json({
         message: err.message
       })
     }
@@ -25,15 +25,9 @@ export const controller = {
         token
       })
     } catch (err) {
-      res.status(403).json({
+      res.status(500).json({
         message: err.message
       })
     }
-  },
-  async check(req, res) {
-    res.json({
-      success: true,
-      info: req.decoded
-    })
   }
 }
