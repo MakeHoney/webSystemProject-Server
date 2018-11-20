@@ -48,10 +48,10 @@ export const modules = {
     checkUserHasSeat (opt) {
       switch(opt) {
         case 'reserve':
-          if(this.sid) throw new Error(`user already has a seat! (sid: ${this.sid})`)
+          if(this.seat) throw new Error(`user already has a seat! (seat id: ${this.seat})`)
           break
         case 'returnOrExtend':
-          if(!this.sid) throw new Error('user got no seat to return or extend!')
+          if(!this.seat) throw new Error('user got no seat to return or extend!')
           break
         default:
           throw new Error('specify option!')

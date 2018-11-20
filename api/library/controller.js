@@ -2,9 +2,9 @@ import { Seat } from '../../models'
 
 export const controller = {
   async reserveSeat(req, res) {
-    const { studentID, sid } = req.body
+    const { studentID, seatNum } = req.body
     try {
-      await Seat.reserve({ studentID, sid })
+      await Seat.reserve({ studentID, seatNum })
       res.json({
         message: 'successfully reserved'
       })

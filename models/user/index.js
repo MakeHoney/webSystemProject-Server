@@ -11,7 +11,7 @@ const User = new Schema({
     type: Date,
     default: Date.now()
   },
-  sid: {
+  seat: {
     type: Schema.Types.ObjectId,
     ref: 'Seat',
     default: null
