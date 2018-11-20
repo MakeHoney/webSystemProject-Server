@@ -107,15 +107,15 @@ describe('RESERVATION TEST', () => {
     assert(error)
 
     const seat1 = await Seat.findOne({ seatNum: 22 })
-      .populate('studentID')
+      .populate('user')
     const seat2 = await Seat.findOne({ seatNum: 30 })
-      .populate('studentID')
+      .populate('user')
     const user = await User.findOne({ studentID: test_user.studentID })
 
     // Seat2 must don't have a user
     assert(!seat2.studentID)
 
     // Seat1's User and Test user must be same person
-    assert(seat1.studentID._id.toString() === user._id.toString())
+    assert(seat1.user._id.toString() === user._id.toString())
   })
 })

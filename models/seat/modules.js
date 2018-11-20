@@ -12,7 +12,7 @@ export const modules = {
 
       await user.update({ seat: seat._id })
       await seat.update({ occupiedTime: Date.now() })
-      await seat.update({ studentID: user._id })
+      await seat.update({ user: user._id })
     },
     async returnSeat ({ studentID }) {
       const user = await User.findOne({studentID})
@@ -25,7 +25,7 @@ export const modules = {
       seat.isTaken('returnOrExtend')
 
       // seat's studentID, occupiedTime 초기화
-      await seat.update({studentID: null})
+      await seat.update({user: null})
       await seat.update({occupiedTime: null})
 
       // user's seat 초기화
@@ -98,10 +98,10 @@ export const modules = {
     checkSeatIsTaken (opt) {
       switch (opt) {
         case 'reserve':
-          if(this.studentID) throw new Error('seat is already taken!')
+          if(this.user) throw new Error('seat is already taken!')
           break
         case 'returnOrExtend':
-          if(!this.studentID) throw new Error('seat is not occupied!')
+          if(!this.user) throw new Error('seat is not occupied!')
           break
         default:
           throw new Error('specify option!')

@@ -10,7 +10,7 @@ const Seat = new Schema({
     type: Date,
     default: null
   },
-  studentID: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     default: null
