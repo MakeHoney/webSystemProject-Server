@@ -10,17 +10,8 @@ export default async (req, res, next) => {
     })
   }
 
-  const check = () => {
-    return new Promise((resolve, reject) => {
-      jwt.verify(token, req.app.get('jwt-secret'), (err, decoded) => {
-        if (err) reject(err)
-        resolve(decoded)
-      })
-    })
-  }
-
   try {
-    req.decoded = await check()
+    req.decoded = await jwt.verify(token, req.app.get('jwt-secret'))
     next()
   } catch (err) {
     res.json({
