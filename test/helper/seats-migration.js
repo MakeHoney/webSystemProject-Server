@@ -33,7 +33,6 @@ export default async database => {
     }
   }
 
-  // TODO: mount 메소드 test 디렉토리로 옮길 것 (독립적인 메소드로 동작하도록)
   // mount seats data
   await mountSeat(30, 30, 30, 30)
 }
