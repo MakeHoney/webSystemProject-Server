@@ -1,6 +1,6 @@
 // Call list of collections
 import mongoose from "mongoose";
-import { Seat } from "../../models";
+import { Seat } from "../../src/models";
 
 const mountSeat = async (...SeatPerFloor) => {
   let seatNum = 0

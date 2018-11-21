@@ -1,6 +1,6 @@
-import { Seat, User } from '../models'
+import { Seat, User } from '../src/models'
 import { helper } from './helper'
-import { renewSeat } from '../schedular'
+import { renewSeat } from '../src/schedular'
 import assert from 'assert'
 
 describe('LIBRARY', function() {

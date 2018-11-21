@@ -1,4 +1,4 @@
 node_modules
 .idea/
 .dist/
-config.js
+src/config.js
