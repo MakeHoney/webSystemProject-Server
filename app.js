@@ -1,10 +1,3 @@
-import { mailer } from './utils/mailer'
+import { renewSeat } from './schedular'
 
-const mailOptions = Object.assign({}, mailer.Options)
-
-mailOptions.to = 'pourmonreve@ajou.ac.kr'
-
-mailer.transporter.sendMail(mailOptions, (err, info) => {
-  if (err) console.log(err)
-  else console.log(info.response)
-})
+renewSeat(15427956981190)

@@ -10,7 +10,7 @@ export const controller = {
     try {
       await User.checkDup({ studentID, email })
 
-      const mailOptions = Object.assign({}, mailer.Options)
+      const mailOptions = Object.assign({}, mailer.options)
       const transporter = mailer.transporter
       const token = await createEmailToken({
         email,
@@ -33,8 +33,8 @@ export const controller = {
       })
     }
   },
-  async register(req, res) {
-    const token  = req.query.token
+  async register (req, res) {
+    const token = req.query.token
     try {
       let decoded = await jwt.verify(token, req.app.get('jwt-secret'))
 
@@ -54,7 +54,7 @@ export const controller = {
       })
     }
   },
-  async login(req, res) {
+  async login (req, res) {
     const { email, password } = req.body
     const secret = req.app.get('jwt-secret')
     try {

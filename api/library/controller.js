@@ -39,18 +39,5 @@ export const controller = {
         message: err.message
       })
     }
-  },
-  async mountSeat(req, res) {
-    const { first, second, third, fourth } = req.body
-    try {
-      await Seat.mount(first, second, third, fourth)
-      res.json({
-        message: 'mounted!'
-      })
-    } catch (err) {
-      res.status(500).json({
-        message: err.message
-      })
-    }
   }
 }

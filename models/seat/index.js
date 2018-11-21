@@ -22,7 +22,7 @@ Seat.statics.reserve = modules.statics.reserveSeat
 Seat.statics.return = modules.statics.returnSeat
 Seat.statics.extend = modules.statics.extendSeat
 Seat.statics.renew = modules.statics.renewSeat
-Seat.statics.mount = modules.statics.mountSeat
+
 // methods -> for specific instance
 Seat.methods.isTaken = modules.methods.checkSeatIsTaken
 

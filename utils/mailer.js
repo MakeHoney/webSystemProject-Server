@@ -9,7 +9,7 @@ export const mailer = {
       pass: config.gmailPass
     }
   }),
-  Options: {
+  options: {
     from: config.gmailUser,
     to: '',
     subject: '클리카주 인증 메일입니다.',
