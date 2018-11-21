@@ -75,23 +75,6 @@ export const modules = {
       } catch (err) {
 
       }
-    },
-    async mountSeat (first, second, third, fourth) {
-      let seatNum = 0
-
-      try {
-        for (let i = 0; i < arguments.length; i++) {
-          for (let j = 0; j < arguments[i]; j++, seatNum++) {
-            let seat = new this({
-              seatNum,
-              floor: i
-            })
-            await seat.save()
-          }
-        }
-      } catch (err) {
-        throw new Error(err)
-      }
     }
   },
   methods: {

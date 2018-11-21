@@ -2,6 +2,23 @@
 import mongoose from "mongoose";
 import Seat from "../../models/seat";
 
+const mountSeat = async (...SeatPerFloor) => {
+  let seatNum = 0
+  try {
+    for (let i = 0; i < SeatPerFloor.length; i++) {
+      for (let j = 0; j < SeatPerFloor[i]; j++, seatNum++) {
+        let seat = new Seat({
+          seatNum,
+          floor: i
+        })
+        await seat.save()
+      }
+    }
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
 export default async database => {
   // Call list of collections
   let collections = await database.db.listCollections().toArray()
@@ -18,5 +35,5 @@ export default async database => {
 
   // TODO: mount 메소드 test 디렉토리로 옮길 것 (독립적인 메소드로 동작하도록)
   // mount seats data
-  await Seat.mount(30, 30, 30, 30)
+  await mountSeat(30, 30, 30, 30)
 }

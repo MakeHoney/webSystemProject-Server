@@ -2,7 +2,7 @@ import { Seat, User } from '../models'
 import { helper } from './helper'
 import assert from 'assert'
 
-describe('LIBRARY TEST', () => {
+describe('LIBRARY', () => {
   let mocha_test = null
   let test_user = null
   let test_user2 = null
@@ -12,8 +12,8 @@ describe('LIBRARY TEST', () => {
   })
 
   beforeEach(async () => {
-    // mounting database
-    await helper.mountDB(mocha_test)
+    // mounting seats
+    await helper.seatMigration(mocha_test)
 
     // mock users
     await helper.mockingUsers()
@@ -30,7 +30,6 @@ describe('LIBRARY TEST', () => {
   after(async () => {
     await mocha_test.close()
   })
-
 
   // Describe tests
   describe('RESERVATION TEST', () => {
@@ -94,7 +93,39 @@ describe('LIBRARY TEST', () => {
   })
 
   describe('RETURNING TEST', () => {
-    it('test', async () => {
+    it('Test1: 일반적인 자리를 반납하는 경우', async () => {
+      await Seat.reserve({ studentID: test_user.studentID, seatNum: 22 })
+
+      let user = await User.findOne({ studentID: test_user.studentID })
+        .populate('seat')
+      let seat = await Seat.findOne({ seatNum: 22 })
+      assert(user.seat._id.toString() === seat._id.toString())
+
+      await Seat.return({ studentID: test_user.studentID })
+      user = await User.findOne({ studentID: test_user.studentID })
+      seat = await Seat.findOne({ seatNum: 22 })
+      assert(!user.seat)
+      assert(!seat.user)
+    })
+
+    it('Test2: 자리가 없는 상태에서 반납하는 경우', async () => {
+      let error
+      try {
+        await Seat.return({ studentID: test_user.studentID })
+      } catch (err) {
+        // error msg: user got no seat to return or extend!
+        error = err
+      }
+      assert(error)
+    })
+  })
+
+  describe('EXTENSION TEST', () => {
+    it('Test1: 일반적인 자리 연장을 하는 경우', async () => {
+
+    })
+
+    it('Test2: 자리가 없는 상태에서 연장하는 경우', async () => {
 
     })
   })

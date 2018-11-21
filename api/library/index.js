@@ -8,6 +8,5 @@ router.use(authCheck)
 router.post('/reserve', controller.reserveSeat)
 router.post('/return', controller.returnSeat)
 router.post('/extend', controller.extendSeat)
-router.post('/db-mount', controller.mountSeat)
 
 export default router
