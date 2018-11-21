@@ -10,6 +10,8 @@ describe('LIBRARY', function() {
 
   before(async function () {
     mocha_test = await helper.dbConnection()
+
+    // In case of test being terminated abnormally
     await User.findOneAndDelete({ studentID: '201523483' })
     await User.findOneAndDelete({ studentID: '201533333' })
   })
@@ -18,7 +20,7 @@ describe('LIBRARY', function() {
     // mounting seats
     await helper.seatMigration(mocha_test)
 
-    // mock users
+    // mock test users
     await helper.mockingUsers()
 
     test_user = await User.findOne({ email: 'pourmonreve@ajou.ac.kr' })
@@ -34,9 +36,7 @@ describe('LIBRARY', function() {
     await mocha_test.close()
   })
 
-  // Describe tests
   describe('RESERVATION TEST', function () {
-    // TEST 1
     it('Test1: 일반적인 빈 좌석을 신청하는 경우', async function () {
       // Reserve a seat
       await Seat.reserve({ studentID: test_user.studentID, seatNum: 19 })
@@ -48,7 +48,6 @@ describe('LIBRARY', function() {
       assert(user.seat._id.toString() === seat._id.toString())
     })
 
-    // TEST 2
     it('Test2: 이미 신청된 좌석을 신청하는 경우', async function () {
       let error = null
       // Reserve a seat
@@ -63,12 +62,11 @@ describe('LIBRARY', function() {
       }
       assert(error)
 
-      // User2 must have no seat.
+      // User2 must not have got a seat.
       let user2 = await User.findOne({ studentID: test_user2.studentID })
       assert(!user2.seat)
     })
 
-    // TEST 3
     it('Test3: 이미 좌석이 있는 유저가 반납 없이 다른 좌석을 신청하는 경우', async function () {
       let error = null
       await Seat.reserve({ studentID: test_user.studentID, seatNum: 22 })
@@ -87,7 +85,7 @@ describe('LIBRARY', function() {
         .populate('user')
       const user = await User.findOne({ studentID: test_user.studentID })
 
-      // Seat2 must don't have a user
+      // Seat2 must not have got a user
       assert(!seat2.studentID)
 
       // Seat1's User and Test user must be same person
