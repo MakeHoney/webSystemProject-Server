@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import { utils } from './utils'
-import { config } from '../config'
+import { config } from './config'
 import api from './api'
 
 const app = express()
