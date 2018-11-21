@@ -17,7 +17,8 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.3.0",
     "mocha": "^5.2.0",
-    "mongoose": "^5.3.10"
+    "mongoose": "^5.3.10",
+    "nodemailer": "^4.7.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
