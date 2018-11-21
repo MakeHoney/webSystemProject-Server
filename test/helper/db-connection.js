@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export const dbConnection = async () => {
+export default async () => {
   await mongoose.connect('mongodb://localhost/mocha_test')
   const db = mongoose.connection
   db.on('error', console.error)
