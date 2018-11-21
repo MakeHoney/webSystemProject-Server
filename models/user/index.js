@@ -22,6 +22,8 @@ const User = new Schema({
 User.statics.create = modules.statics.createUser
 User.statics.register = modules.statics.registerUser
 User.statics.checkAuth = modules.statics.checkUserAuth
+User.statics.checkDup = modules.statics.checkDup
+
 // methods -> for specific instance
 User.methods.verify = modules.methods.verifyUser
 User.methods.hasSeat = modules.methods.checkUserHasSeat

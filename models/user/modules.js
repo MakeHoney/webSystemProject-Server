@@ -16,16 +16,12 @@ export const modules = {
       }
     },
     async registerUser ({ studentID, email, password, name }) {
-      let stuIDCheck = await this.findOne({ studentID })
-      let emailCheck = await this.findOne({ email })
-
-      if (stuIDCheck) {
-        throw new Error('same student ID already exist!')
-      } else if (emailCheck) {
-        throw new Error('The email already registered!')
-      } else {
+      try {
+        await this.checkDup({studentID, email})
         await this.create(email, studentID, password, name)
           .catch(err => { throw err })
+      } catch (err) {
+        throw err
       }
     },
     async checkUserAuth ({ email, password, secret }) {
@@ -38,6 +34,18 @@ export const modules = {
         } else {
           throw new Error('wrong password')
         }
+      }
+    },
+    async checkDup ({ studentID, email }) {
+      let stuIDCheck = await this.findOne({ studentID })
+      let emailCheck = await this.findOne({ email })
+
+      if (stuIDCheck) {
+        throw new Error('same student ID already exist!')
+      } else if (emailCheck) {
+        throw new Error('The email already registered!')
+      } else {
+        return true
       }
     }
   },
