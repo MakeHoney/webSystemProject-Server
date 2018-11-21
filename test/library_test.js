@@ -8,7 +8,6 @@ import assert from 'assert'
  * */
 
 // Describe tests
-// TODO: token 관련 테스트도 추가할 것 (ex. 로그인 안된 상태에서 자리예약 등)
 describe('RESERVATION TEST', () => {
   let test_user = null
   let test_user2 = null
