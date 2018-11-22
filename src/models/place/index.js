@@ -5,7 +5,6 @@ const Place = new Schema({
   placeName: String,
   placeNum: Number,
   rooms: [{
-    roomName: String,
     roomNum: Number,
     capacity: Number,
   }],

@@ -32,7 +32,6 @@ export default async database => {
       break
     }
   }
-
   // mount seats data
   await mountSeat(30, 30, 30, 30)
 }
