@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { config } from '../../config'
+import { config } from '../../src/config'
 
 export default async () => {
   await mongoose.connect(config.testMongoURI)
