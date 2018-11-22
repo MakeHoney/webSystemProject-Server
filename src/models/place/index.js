@@ -2,10 +2,21 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const Place = new Schema({
-  placeNum: String,
   placeName: String,
-  reservedAt: Date,
-  occupiedAt: Date,
+  placeNum: Number,
+  rooms: [{
+    roomName: String,
+    roomNum: Number,
+    capacity: Number,
+  }],
+  reservedAt: {
+    type: Date,
+    default: null
+  },
+  occupiedAt: {
+    type: Date,
+    default: null
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
