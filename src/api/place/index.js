@@ -1,5 +1,5 @@
 import express from 'express'
-import authCheck  from '../middlewares'
+import authCheck from '../middlewares/auth-check'
 const router = express.Router()
 
 router.use(authCheck)
