@@ -3,6 +3,7 @@ import User from "../user";
 export const modules = {
   statics: {
     async reserveSeat ({ studentID, seatNum }) {
+
       const user = await User.findOne({ studentID })
       const seat = await this.findOne({ seatNum })
 

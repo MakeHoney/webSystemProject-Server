@@ -33,6 +33,10 @@ export const controller = {
       })
     }
   },
+
+  /*
+  * TODO: 프론트페이지로 리다이렉트
+  * */
   async register (req, res) {
     const token = req.query.token
     try {
@@ -54,14 +58,20 @@ export const controller = {
       })
     }
   },
+
+  // TODO: response에 studentID 추가
   async login (req, res) {
+    console.log('hi hi')
     const { email, password } = req.body
     const secret = req.app.get('jwt-secret')
     try {
       const token = await User.checkAuth({ email, password, secret })
+      const user = await User.findOne({ email })
+      const studentID = user.studentID
       res.json({
         message: 'signed in successfully!',
         email,
+        studentID,
         token
       })
     } catch (err) {

@@ -15,6 +15,11 @@ const User = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Seat',
     default: null
+  },
+  place: {
+    type: Schema.Types.ObjectId,
+    ref: 'Place',
+    default: null
   }
 })
 
