@@ -6,6 +6,7 @@ const Schema = mongoose.Schema
 const Seat = new Schema({
   seatNum: Number,
   floor: Number,
+  type: Number,
   occupiedTime: {
     type: Date,
     default: null
