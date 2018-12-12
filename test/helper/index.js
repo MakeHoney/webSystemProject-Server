@@ -1,5 +1,5 @@
 import dbConnection from './db-connection'
-import seatMigration from './seats-migration'
+import seatMigration from './migration'
 import mockingUsers from './mocking-users'
 
 export const helper = {
