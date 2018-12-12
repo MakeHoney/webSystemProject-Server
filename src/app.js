@@ -1,12 +1,12 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import db from '../utils/dbConnection'
-import { config } from '../config'
-import api from '../api'
+import { utils } from './utils'
+import { config } from './config'
+import api from './api'
 
 const app = express()
-db.connect()
+utils.dbConnection()
 
 app.set('port', process.env.PORT || 8888)
 app.set('jwt-secret', config.secret)
