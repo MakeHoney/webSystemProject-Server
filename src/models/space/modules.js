@@ -2,9 +2,9 @@ import User from '../user'
 
 export const modules = {
   statics: {
-    async reserveSpace ({ studentID, spaceID, DateNeeded }) {
+    async reserveSpace ({ studentID, placeName, spaceID, DateNeeded }) {
       const user = await User.findOne({ studentID })
-      const space = await this.findOne({ spaceID })
+      const space = await this.findOne({ placeName, spaceID })
 
       // Need exception handler here
       user.hasSpace('reserve')
@@ -16,7 +16,7 @@ export const modules = {
     },
     async cancelReservation ({ studentID }) {
       const user = await User.findOne({ studentID })
-        .papulate('space')
+        .populate('space')
 
       // exception handler here
       user.hasSpace('cancel')
