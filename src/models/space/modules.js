@@ -28,6 +28,10 @@ export const modules = {
       await space.update({ occupiedAt: null })
 
       await user.update({ space: null })
+    },
+    async spaceListOfPlace ({ placeName }) {
+      const spaceList = await this.find({ placeName })
+      return spaceList
     }
   },
   methods: {

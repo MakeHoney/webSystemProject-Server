@@ -19,6 +19,7 @@ const Space = new Schema({
 
 Space.statics.reserve = modules.statics.reserveSpace
 Space.statics.cancel = modules.statics.cancelReservation
+Space.statics.list = modules.statics.spaceListOfPlace
 
 Space.methods.isTaken = modules.methods.checkSpaceIsTaken
 export default mongoose.model('Space', Space)
