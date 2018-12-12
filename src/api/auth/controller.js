@@ -19,7 +19,6 @@ export const controller = {
         name,
         secret: req.app.get('jwt-secret')
       })
-
       mailOptions.to = email
       mailOptions.text += `${config.host}/auth/register?token=${token}`
 
@@ -61,7 +60,6 @@ export const controller = {
 
   // TODO: response에 studentID 추가
   async login (req, res) {
-    console.log('hi hi')
     const { email, password } = req.body
     const secret = req.app.get('jwt-secret')
     try {
@@ -79,5 +77,11 @@ export const controller = {
         message: err.message
       })
     }
+  },
+  async check(req, res) {
+    res.json({
+      success: true,
+      info: req.decoded
+    })
   }
 }
