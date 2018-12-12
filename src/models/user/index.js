@@ -16,9 +16,9 @@ const User = new Schema({
     ref: 'Seat',
     default: null
   },
-  place: {
+  space: {
     type: Schema.Types.ObjectId,
-    ref: 'Place',
+    ref: 'Space',
     default: null
   }
 })
