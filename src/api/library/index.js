@@ -1,9 +1,7 @@
 import express from 'express'
 import { controller } from './controller'
 import authCheck from "../middlewares/auth-check";
-
-import { Seat } from '../../models'
-import {mountSeat2} from '../../../test/helper/seats-migration'
+import { mountSeat2 } from '../../../test/helper/migration'
 
 const router = express.Router()
 
@@ -12,6 +10,12 @@ router.use(authCheck)
 // POST /library/reserve
 // POST /library/return
 // POST /library/extend
+
+router.get('/list', controller.seatList)
+router.post('/reserve', controller.reserveSeat)
+router.post('/return', controller.returnSeat)
+router.post('/extend', controller.extendSeat)
+
 router.get('/mount', async (req, res) => {
   try {
     await mountSeat2(0, 0, 500, 326)
@@ -24,15 +28,5 @@ router.get('/mount', async (req, res) => {
     })
   }
 })
-router.get('/list', async (req, res) => {
-  const seats = await Seat.find()
-  console.log(seats)
-  res.json({
-    seats
-  })
-})
-router.post('/reserve', controller.reserveSeat)
-router.post('/return', controller.returnSeat)
-router.post('/extend', controller.extendSeat)
 
 export default router
