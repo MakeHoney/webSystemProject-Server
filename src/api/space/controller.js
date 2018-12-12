@@ -1,10 +1,10 @@
 import { Space } from '../../models'
 export const controller = {
   async reserveSpace(req, res) {
-    const { studentID, placeName, spaceID } = req.body
+    const { studentID, placeName, spaceID, rDate } = req.body
 
     try {
-      await Space.reserve({ studentID, placeName, spaceID })
+      await Space.reserve({ studentID, placeName, spaceID, rDate })
       res.json({
         message: 'successfully reserved'
       })
