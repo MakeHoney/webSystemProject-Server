@@ -1,26 +1,19 @@
-export default [
-  {
-    placeID: 6,
-    spaceID: 101,
-    occupiedAt: null,
-    user: null
-  },
-  {
-    placeID: 6,
-    spaceID: 107,
-    occupiedAt: null,
-    user: null
-  },
+export default () => {
+  let id = 0
+  let result = []
+  placeMocks.forEach(placeMock => {
+    placeMock.spaceIDs.forEach(spaceID => {
+      let obj = { occupiedAt: null, user: null }
+      obj.placeName = placeMock.placeName
+      obj.spaceID = spaceID
+      obj.id = id++
+      result.push(obj)
+    })
+  })
+  return result
+}
 
-  {
-    placeID: 6,
-    spaceID: 135,
-    occupiedAt: null,
-    user: null
-  }
-]
-
-export default [
+const placeMocks = [
   {
     placeName: '성호관',
     spaceIDs: [
@@ -173,14 +166,5 @@ export default [
       '332',
       '334'
     ]
-  },
-  {
-
-  },
-  {
-
-  },
-  {
-
   }
 ]
