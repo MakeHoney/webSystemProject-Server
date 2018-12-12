@@ -32,5 +32,6 @@ User.statics.checkDup = modules.statics.checkDup
 // methods -> for specific instance
 User.methods.verify = modules.methods.verifyUser
 User.methods.hasSeat = modules.methods.checkUserHasSeat
+User.methods.hasSpace = modules.methods.checkUserHasSpace
 
 export default mongoose.model('User', User)

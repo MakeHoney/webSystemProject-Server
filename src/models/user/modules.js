@@ -64,6 +64,18 @@ export const modules = {
         default:
           throw new Error('specify option!')
       }
+    },
+    checkUserHasSpace (opt) {
+      switch (opt) {
+        case 'reserve':
+          if(this.space) throw new Error(`user already reserved a space (space id: ${this.space})`)
+          break
+        case 'cancel':
+          if(!this.space) throw new Error('user got no space to cancel')
+          break
+        default:
+          throw new Error('specify option!')
+      }
     }
   }
 }
