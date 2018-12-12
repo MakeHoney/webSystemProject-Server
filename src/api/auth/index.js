@@ -9,6 +9,6 @@ router.get('/register', controller.register)
 router.post('/send-auth-mail', controller.sendAuthMail)
 router.post('/login', controller.login)
 
-router.post('/personal', controller.personalInfo)
+router.post('/personal', authCheck, controller.personalInfo)
 
 export default router
