@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { modules } from './modules'
 const Schema = mongoose.Schema
 
 const Space = new Schema({
@@ -16,4 +17,8 @@ const Space = new Schema({
   }
 })
 
+Space.statics.reserve = modules.statics.reserveSpace
+Space.statics.cancel = modules.statics.cancelReservation
+
+Space.methods.isTaken = modules.methods.checkSpaceIsTaken
 export default mongoose.model('Space', Space)
