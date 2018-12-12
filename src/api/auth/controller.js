@@ -83,5 +83,26 @@ export const controller = {
       success: true,
       info: req.decoded
     })
+  },
+  async personalInfo (req, res) {
+    const { studentID } = req.body
+    try {
+      const userWithSeat = await User.findOne({ studentID })
+        .populate('seat')
+      const userWithSpace = await User.findOne({ studentID })
+        .populate('space')
+
+      res.json({
+        name: userWithSeat.name,
+        email: userWithSeat.email,
+        studentID,
+        seat: userWithSeat.seat,
+        space: userWithSpace.space
+      })
+    } catch (err) {
+      res.status(500).json({
+        message: err.message
+      })
+    }
   }
 }
