@@ -39,5 +39,17 @@ export const controller = {
         message: err.message
       })
     }
+  },
+  async seatList(req, res) {
+    try {
+      const seats = await Seat.find()
+      res.json({
+        seats
+      })
+    } catch (err) {
+      res.status(500).json({
+        message: err.message
+      })
+    }
   }
 }
