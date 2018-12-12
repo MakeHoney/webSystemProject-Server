@@ -2,7 +2,6 @@ import { Space } from '../../models'
 export const controller = {
   async reserveSpace(req, res) {
     const { studentID, placeName, spaceID, rDate } = req.body
-
     try {
       await Space.reserve({ studentID, placeName, spaceID, rDate })
       res.json({
@@ -20,6 +19,19 @@ export const controller = {
       await Space.cancel({ studentID })
       res.json({
         message: 'successfully canceled'
+      })
+    } catch (err) {
+      res.status(500).json({
+        message: err.message
+      })
+    }
+  },
+  async spaceListOfPlace(req, res) {
+    const { placeName } = req.body
+    try {
+      const spaceList = await Space.list({ placeName })
+      res.json({
+        spaceList
       })
     } catch (err) {
       res.status(500).json({
