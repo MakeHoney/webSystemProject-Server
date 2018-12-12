@@ -30,7 +30,7 @@ export const mountSeat2 = async (...SeatPerFloor) => {
           || (seatNum > 205 && seatNum <= 305)
           || (seatNum > 625 && seatNum <= 826)) {
           type = 0
-        } else if (seatNum > 360 && seatNum <= 470) {
+        } else if (seatNum > 360 && seatNum <= 480) { //470 -> 480
           type = 2
         } else {
           type = 1
