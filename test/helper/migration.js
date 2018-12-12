@@ -1,6 +1,7 @@
 // Call list of collections
 import mongoose from "mongoose";
-import { Seat } from "../../src/models";
+import { Seat, Space } from "../../src/models";
+import extractSpaceObj from '../spaces'
 
 const mountSeat = async (...SeatPerFloor) => {
   let seatNum = 0
@@ -42,6 +43,18 @@ export const mountSeat2 = async (...SeatPerFloor) => {
         await seat.save()
       }
     }
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
+export const mountSpace = async () => {
+  const spaceArray = extractSpaceObj()
+  try {
+    spaceArray.forEach(async spaceObj => {
+      let space = new Space(spaceObj)
+      await space.save()
+    })
   } catch (err) {
     throw new Error(err)
   }
