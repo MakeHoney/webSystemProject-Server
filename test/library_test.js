@@ -37,7 +37,7 @@ describe('LIBRARY', function() {
   })
 
   describe('RESERVATION TEST', function () {
-    it('Test1: 일반적인 빈 좌석을 신청하는 경우', async function () {
+    it('Test1: 일반적인 빈 좌석을 발급하는 경우', async function () {
       // Reserve a seat
       await Seat.reserve({ studentID: test_user.studentID, seatNum: 19 })
       // Load Document
@@ -48,7 +48,7 @@ describe('LIBRARY', function() {
       assert(user.seat._id.toString() === seat._id.toString())
     })
 
-    it('Test2: 이미 신청된 좌석을 신청하는 경우', async function () {
+    it('Test2: 이미 신청된 좌석을 발급하는 경우', async function () {
       let error = null
       // Reserve a seat
       await Seat.reserve({ studentID: test_user.studentID, seatNum: 19 })
@@ -67,7 +67,7 @@ describe('LIBRARY', function() {
       assert(!user2.seat)
     })
 
-    it('Test3: 이미 좌석이 있는 유저가 반납 없이 다른 좌석을 신청하는 경우', async function () {
+    it('Test3: 이미 좌석이 있는 유저가 반납 없이 다른 좌석을 발급하는 경우', async function () {
       let error = null
       await Seat.reserve({ studentID: test_user.studentID, seatNum: 22 })
 
