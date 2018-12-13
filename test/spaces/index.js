@@ -3,11 +3,17 @@ export default () => {
   let result = []
   placeMocks.forEach(placeMock => {
     placeMock.spaceIDs.forEach(spaceID => {
-      let obj = { occupiedAt: null, user: null }
-      obj.placeName = placeMock.placeName
-      obj.spaceID = spaceID
-      obj.id = id++
-      result.push(obj)
+      for(let i = 0; i < 3; i++) {
+        for (let j = 7; j < 24; j += 2) {
+          let obj = { occupiedAt: null, user: null }
+          obj.placeName = placeMock.placeName
+          obj.spaceID = spaceID
+          obj.day = i
+          obj.time = j
+          obj.id = id++
+          result.push(obj)
+        }
+      }
     })
   })
   return result
