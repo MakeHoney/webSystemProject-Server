@@ -45,6 +45,15 @@ export const modules = {
       // exception handler for seat
       seat.isTaken('returnOrExtend')
 
+      const now = new Date().getTime()
+      const occupiedTime = seat.occupiedTime.getTime()
+      const difference = now - occupiedTime
+
+      // 2 minutes
+      if(difference < 120000) {
+        throw new Error('Cannot extend now')
+      }
+
       // update time
       await seat.update({ occupiedTime: Date.now() })
     }
