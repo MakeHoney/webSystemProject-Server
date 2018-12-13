@@ -2,9 +2,17 @@ import User from '../user'
 
 export const modules = {
   statics: {
-    async reserveSpace ({ studentID, placeName, spaceID, rDate }) {
+    async reserveSpace ({
+      studentID,
+      placeName,
+      spaceID,
+      rDate,
+      day,
+      time
+    }) {
+      console.log(studentID, placeName, spaceID, rDate, day, time)
       const user = await User.findOne({ studentID })
-      const space = await this.findOne({ placeName, spaceID })
+      const space = await this.findOne({ placeName, spaceID, day, time })
 
       user.hasSpace('reserve')
       space.isTaken('reserve')
@@ -29,9 +37,17 @@ export const modules = {
 
       await user.update({ space: null })
     },
-    async spaceListOfPlace ({ placeName }) {
-      const spaceList = await this.find({ placeName })
-      return spaceList
+    async spaceListOfPlace ({ placeName, spaceID, day, time }) {
+      let spaceList
+      if(spaceID) {
+        spaceList = await this.find({placeName, spaceID })
+          .populate('user')
+        return spaceList
+      } else {
+        spaceList = await this.find({ placeName })
+        console.log(day)
+        return spaceList.filter(space => (space.day == day) && space.time == time)
+      }
     }
   },
   methods: {

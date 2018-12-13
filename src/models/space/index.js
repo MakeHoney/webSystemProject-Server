@@ -6,6 +6,8 @@ const Space = new Schema({
   id: Number,
   placeName: String,
   spaceID: String,
+  day: Number,
+  time: Number,
   occupiedAt: {
     type: Date,
     default: null
