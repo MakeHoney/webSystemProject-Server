@@ -56,7 +56,7 @@ export const modules = {
     checkUserHasSeat (opt) {
       switch(opt) {
         case 'reserve':
-          if(this.seat) throw new Error(`user already has a seat! (seat id: ${this.seat})`)
+          if(this.seat) throw new Error(`user already has a seat!`)
           break
         case 'returnOrExtend':
           if(!this.seat) throw new Error('user got no seat to return or extend!')
@@ -68,7 +68,7 @@ export const modules = {
     checkUserHasSpace (opt) {
       switch (opt) {
         case 'reserve':
-          if(this.space) throw new Error(`user already reserved a space (space id: ${this.space})`)
+          if(this.space) throw new Error(`user already reserved a space`)
           break
         case 'cancel':
           if(!this.space) throw new Error('user got no space to cancel')
