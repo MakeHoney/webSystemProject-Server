@@ -5,8 +5,6 @@ export default async () => {
   await mongoose.connect(config.testMongoURI)
   const db = mongoose.connection
   db.on('error', console.error)
-  db.once('open', () => {
-    console.log('connected to mongodb server')
-  })
+  db.once('open', () => {})
   return db
 }
