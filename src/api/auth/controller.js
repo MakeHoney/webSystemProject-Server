@@ -47,10 +47,8 @@ export const controller = {
         password: decoded.password,
         name: decoded.name
       })
-
-      res.json({
-        message: 'successfully registered!'
-      })
+      res.writeHead(301, { Location: 'http://localhost:8080/login' })
+      res.end()
     } catch (err) {
       res.status(500).json({
         message: err.message
